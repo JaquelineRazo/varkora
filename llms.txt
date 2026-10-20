@@ -1,0 +1,22 @@
+# VARKORA
+
+> VARKORA is operations software for construction, logistics and real estate companies, bringing projects, shipments, documents and finances into one configurable platform. A venture by RAZZO and Sotres.
+
+## Solutions
+
+- VARKORA Construction: leads, estimates, crews, inspections and billing in one place, with a client portal.
+- VARKORA Logistics: material orders, shipments, customs and cross-border distribution, with finances and demand-based planning.
+- VARKORA Real Estate: assets, assessments, capital plans and owner reporting.
+
+## Platform
+
+One connected data model for sales, operations and finance; built-in analytics; AI agents and automations with permissions, limits and human review; data pipelines between departments; role-based access, encryption in transit and at rest, activity logs and automatic backups; migration of existing spreadsheets and files, with export to Excel or CSV.
+
+## How it works
+
+Discovery call (20 minutes, free), Discovery Sprint (1 to 2 weeks, fixed price, credited to the project), implementation priced by scope, then an annual subscription with support and updates. VARKORA licenses the platform; client business data stays with the client and is exportable.
+
+## Contact
+
+- [Book a 20-minute call](https://tidycal.com/jaquelinerazzo/20-minute-meeting)
+- Email: varkora@razzobusiness.com

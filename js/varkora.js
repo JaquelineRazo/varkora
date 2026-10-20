@@ -132,3 +132,91 @@
 
 	play(0);
 })();
+
+// Reveal-on-scroll for .reveal elements (and the proof dashboard bars).
+(function () {
+	var items = document.querySelectorAll('.reveal');
+	if (!('IntersectionObserver' in window)) {
+		items.forEach(function (el) { el.classList.add('is-in'); });
+		return;
+	}
+	var io = new IntersectionObserver(function (entries) {
+		entries.forEach(function (entry) {
+			if (entry.isIntersecting) {
+				entry.target.classList.add('is-in');
+				io.unobserve(entry.target);
+			}
+		});
+	}, { rootMargin: '0px 0px -10% 0px' });
+	items.forEach(function (el) { io.observe(el); });
+})();
+
+// Contact form: solution preset from the solution cards, first-touch source
+// for the session, background submit to the razzo-forms worker.
+(function () {
+	var form = document.getElementById('contact-form');
+	if (!form) { return; }
+	var select = form.querySelector('select[name="solution"]');
+	var status = form.querySelector('.form-status');
+	var button = form.querySelector('button[type="submit"]');
+
+	document.querySelectorAll('[data-solution]').forEach(function (link) {
+		link.addEventListener('click', function () { select.value = link.getAttribute('data-solution'); });
+	});
+
+	var params = new URLSearchParams(location.search);
+	var source = params.get('utm_source') || params.get('ref');
+	try {
+		if (source && !sessionStorage.getItem('varkora_source')) { sessionStorage.setItem('varkora_source', source); }
+		source = sessionStorage.getItem('varkora_source') || source;
+	} catch (e) {}
+	form.querySelector('input[name="source"]').value = source || (document.referrer && document.referrer.indexOf(location.host) === -1 ? 'referral' : 'direct');
+
+	function fail(message) {
+		form.classList.remove('is-sending');
+		button.disabled = false;
+		button.textContent = 'Send message';
+		status.classList.add('is-error');
+		status.innerHTML = message;
+	}
+
+	form.addEventListener('submit', function (e) {
+		e.preventDefault();
+		var missing = false;
+		form.querySelectorAll('[required]').forEach(function (field) {
+			var bad = !field.value.trim() || (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value.trim()));
+			field.closest('.field').classList.toggle('is-invalid', bad);
+			if (bad) { missing = true; }
+		});
+		if (missing) { fail('Please add your name, a valid work email and a short message.'); return; }
+
+		var data = {};
+		new FormData(form).forEach(function (value, key) { data[key] = value; });
+		form.classList.add('is-sending');
+		button.disabled = true;
+		button.textContent = 'Sending…';
+		status.classList.remove('is-error');
+		status.textContent = '';
+
+		var controller = window.AbortController ? new AbortController() : null;
+		var timer = setTimeout(function () { if (controller) { controller.abort(); } }, 10000);
+		fetch(form.action, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+			body: JSON.stringify(data),
+			signal: controller ? controller.signal : undefined
+		}).then(function (r) { return r.json(); }).then(function (res) {
+			clearTimeout(timer);
+			if (!res || res.success !== true) { throw new Error(res && res.error); }
+			if (window.umami && typeof window.umami.track === 'function') {
+				window.umami.track('form-submit', { brand: 'varkora', solution: data.solution, source: data.source });
+			}
+			form.classList.remove('is-sending');
+			form.classList.add('is-sent');
+			status.textContent = 'Thank you. We read every message and usually reply within two business days.';
+		}).catch(function () {
+			clearTimeout(timer);
+			fail('We couldn’t send your message. Please email <a href="mailto:varkora@razzobusiness.com">varkora@razzobusiness.com</a>.');
+		});
+	});
+})();
