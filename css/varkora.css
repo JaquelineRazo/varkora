@@ -967,3 +967,9 @@ h1, h2, h3, p { margin: 0; }
 	.callout { margin-top: 44px; }
 	.footer-links { margin-left: 0; flex-wrap: wrap; }
 }
+
+/* Contrast (WCAG AA) for small text: deeper teal on light backgrounds,
+   lighter slate on dark ones. Same hues, readable at 11-12px. */
+:root { --teal-text: #2A6E7F; --slate-light: #93A6B4; }
+.eyebrow--dark, .pain-index, .step-time { color: var(--teal-text); }
+.proof-note, .footer-copy, .hero-micro, .console-caption, .console-id, .kpi-label { color: var(--slate-light); }
