@@ -1,6 +1,6 @@
 # VARKORA
 
-> VARKORA is operations software for construction, logistics and real estate companies, bringing projects, shipments, documents and finances into one configurable platform. A venture by RAZZO and Sotres.
+> VARKORA is operations software for construction, logistics and real estate companies, bringing projects, shipments, documents and finances into one configurable, mobile-first platform. A venture by RAZZO and Sotres.
 
 ## Solutions
 
@@ -10,7 +10,7 @@
 
 ## Platform
 
-One connected data model for sales, operations and finance; built-in analytics; AI agents and automations with permissions, limits and human review; data pipelines between departments; role-based access, encryption in transit and at rest, activity logs and automatic backups; migration of existing spreadsheets and files, with export to Excel or CSV.
+One connected data model for sales, operations and finance; built-in analytics; AI agents and automations with permissions, limits and human review; data pipelines between departments; role-based access, encryption in transit and at rest, activity logs and automatic backups; migration of existing spreadsheets and files, with export to Excel or CSV; connections to the ERP, accounting and e-commerce systems that stay; mobile-first access with agent alerts and approvals from the phone.
 
 ## How it works
 
